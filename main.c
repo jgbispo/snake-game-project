@@ -77,6 +77,19 @@ typedef struct FILA
     No *fim;
 } FILA;
 
+struct list_rec
+{
+    char elem;
+    struct list_rec *lig;
+};
+typedef struct list_rec Rec;
+
+typedef struct
+{
+    char nick;
+    Rec *head;
+} Players;
+
 //=========== VARIAVEIS ==========//
 int DIMENSAO_X, DIMENSAO_Y;
 int matriz[10][10];
@@ -86,6 +99,9 @@ int score;
 int option;
 
 bool jogando;
+
+char nomes[];
+int scores[];
 //========== ASSINATURAS =========//
 COBRA *cria_cobra();
 MACA *cria_maca();
@@ -112,6 +128,7 @@ bool verifica_colisao(char elm);
 bool verifica_maca(char elm);
 bool verifica_cobra(char elm);
 bool verifica_fila_vazia(FILA *fila);
+void make_list_palyers(Players *P, char nome);
 
 char **copiar_matriz(char **b_matriz);
 ROW *copiar_row(ROW *b_row);
@@ -152,6 +169,7 @@ int main()
     get_size_window(&DIMENSAO_X, &DIMENSAO_Y);
     run_cursor();
     jogando = false;
+    system("cls");
     imprime_mensagem("Bem-Vindo 1-Iniciar Jogo 2-Rank 3-Sair: ");
     scanf("%d", &option);
 
@@ -162,18 +180,19 @@ int main()
         start();
         break;
     case 2:
-        imprime_mensagem("Insira seu nome: ");
-        break;
-    default:
+        system("cls");
+        imprime_mensagem("Em construcao! tecle qualquer tecla para volta...");
+        getch();
+        main();
         break;
     }
-
     return 0;
 }
 
 //======== GAME ===========//
 void start()
 {
+
     // Iniciando jogo
     while (jogando)
     {
@@ -201,7 +220,6 @@ void start()
             if (tecla == SETAS)
             {                    // C�digo das setas
                 tecla = getch(); // Dire��o da seta
-
                 atualiza_direcao(tecla, cobra->direcao);
             }
 
@@ -919,4 +937,11 @@ void get_size_window(int *col, int *row)
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cmd);
     *col = cmd.srWindow.Right - cmd.srWindow.Left + 1;
     *row = cmd.srWindow.Bottom - cmd.srWindow.Top + 1;
+}
+
+void make_list_palyers(Players *P, char nome)
+{
+    P = malloc(sizeof(Players));
+    P->nick = nome;
+    P->head = NULL;
 }
