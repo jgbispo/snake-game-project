@@ -8,6 +8,7 @@
 #include <windows.h>
 #include<dos.h>
 
+
 //========== CONSTANTES =========//
 #define OBS_RAIZES 30
 #define OBS_ROWS 30
@@ -72,6 +73,7 @@ typedef struct FILA{
 
 //=========== VARI�VEIS ==========//
 int DIMENSAO_X, DIMENSAO_Y;
+int velocidade = 100;
 
 //========== ASSINATURAS =========//
 COBRA   *cria_cobra();
@@ -133,12 +135,13 @@ void maximize_window();
 int main(){
     
     //Iniciando tela
+    printf("INICIANDO O GAME");
     maximize_window();
     get_size_window(&DIMENSAO_X, &DIMENSAO_Y);
     run_cursor();
 
     //Iniciando jogo
-    bool jogando = true;
+    bool jogando = true;    
     do{
         //Iniciando vari�veis
         srand(time(NULL));
@@ -174,6 +177,7 @@ int main(){
                 hide_cursor(false);
                 imprime_mensagem("VOCE COLIDIU!, deseja reiniciar? [s/n] ");
                 scanf("%c",&tecla);
+                velocidade = 100;
                 while(tecla != 's' && tecla != 'n'){
                     imprime_mensagem("TECLA INCORRETA!, deseja reiniciar? [s/n] ");
                     scanf("%c",&tecla);
@@ -187,10 +191,11 @@ int main(){
             if(verifica_maca(elm_coli)){
                 alimenta_cobra(cobra);
                 atualiza_maca(cobra, quadro);
+                velocidade = velocidade - 5;
             }
 
             atualiza_cobra(cobra);
-            Sleep(100);        
+            Sleep(velocidade);        
 
             if(kbhit())
                 tecla = getch();
@@ -219,7 +224,7 @@ COBRA *cria_cobra(){
     cobra->cabec->elm = CABEC_COB;
     cobra->cabec->prox = NULL;
     cobra->cabec->pos_x = pos_x - pos_x % OFFSET_X; 
-    cobra->cabec->pos_y = (int)(DIMENSAO_Y / 2);
+    cobra->cabec->pos_y     = (int)(DIMENSAO_Y / 2);
     cobra->final = cobra->cabec;
     cobra->direcao = cria_direcao();
     cobra->direcao->inc_x = OFFSET_X;
@@ -339,7 +344,7 @@ void imprime_obstaculo(char **matriz){
         while(obs != NULL){
     
             //Iprime nos offsets
-            for(idx_offset = 0; idx_offset < OFFSET_X; idx_offset++){
+            for(idx_offset = 1; idx_offset < OFFSET_X; idx_offset++){
                 matriz[obs->pos_x + idx_offset][obs->pos_y] = obs->elm;
 
                 set_char_by_cursor(obs->elm,obs->pos_x + idx_offset, obs->pos_y);
@@ -718,7 +723,7 @@ ROW **sorteia_obstaculos(){
         obstaculos[idx_raiz]->elm = OBST_ROW;
         ROW *obstaculo = obstaculos[idx_raiz];
 
-        idx_row = 1;
+        idx_row = 0;
         while(idx_row < OBS_ROWS){
             //Alterna dire��o
             if((idx_row % OBS_BLOK +1) == OBS_BLOK)
