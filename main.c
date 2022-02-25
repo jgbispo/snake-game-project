@@ -7,7 +7,6 @@
 #include <stdbool.h>
 #include <windows.h>
 #include <search.h>
-#include <string.h>
 #include <dos.h>
 
 //========== CONSTANTES =========//
@@ -78,16 +77,33 @@ typedef struct FILA
     No *fim;
 } FILA;
 
+struct list_rec
+{
+    char elem;
+    struct list_rec *lig;
+};
+typedef struct list_rec Rec;
+
+typedef struct
+{
+    char nick;
+    Rec *head;
+} Players;
+
 //=========== VARIAVEIS ==========//
 int DIMENSAO_X, DIMENSAO_Y;
 int matriz[10][10];
 
-char nome[3];
+char nome;
 int score;
 int option;
 
 bool jogando;
 
+char nomes[];
+int scores[];
+
+int velocidade = 100;
 //========== ASSINATURAS =========//
 COBRA *cria_cobra();
 MACA *cria_maca();
@@ -120,6 +136,7 @@ bool verifica_colisao(char elm);
 bool verifica_maca(char elm);
 bool verifica_cobra(char elm);
 bool verifica_fila_vazia(FILA *fila);
+void make_list_palyers(Players *P, char nome);
 
 char **copiar_matriz(char **b_matriz);
 ROW *copiar_row(ROW *b_row);
@@ -132,6 +149,8 @@ void libera_direcao(DIRECAO *direcao);
 
 void alimenta_cobra(COBRA *cobra);
 void alimenta_fila(FILA *fila, void *val);
+
+void start();
 
 DIRECAO *direcao_cima();
 DIRECAO *direcao_baixo();
@@ -176,7 +195,7 @@ void menu(int option)
         break;
     case 2:
         system("cls");
-        ranking();
+        imprime_mensagem("Em construcao! tecle qualquer tecla para volta...");
         getch();
         main();
         break;
@@ -192,11 +211,11 @@ void menu(int option)
 //======== GAME ===========//
 void start()
 {
-    score = 0;
+
     // Iniciando jogo
     while (jogando)
     {
-        // Iniciando variáveis
+        // Iniciando vari�veis
         srand(time(NULL));
         char **quadro = cria_matriz();
         COBRA *cobra = cria_cobra();
@@ -230,11 +249,11 @@ void start()
             if (verifica_colisao(elm_coli))
             {
                 hide_cursor(false);
-                imprime_mensagem("Insira seu nome [Máx 3]: ");
+                imprime_mensagem("Insira seu nome: ");
                 scanf("%s", &nome);
-                write_file_ranked(nome, score);
                 imprime_mensagem("VOCE COLIDIU!, deseja reiniciar? [s/n] ");
                 scanf("%c", &tecla);
+                velocidade = 100;
                 while (tecla != 's' && tecla != 'n')
                 {
                     imprime_mensagem("TECLA INCORRETA!, deseja reiniciar? [s/n] ");
@@ -251,11 +270,11 @@ void start()
             {
                 alimenta_cobra(cobra);
                 atualiza_maca(cobra, quadro);
-                score++;
+                velocidade = velocidade - 10;
             }
 
             atualiza_cobra(cobra);
-            Sleep(100);
+            Sleep(velocidade);
 
             if (kbhit())
                 tecla = getch();
@@ -462,7 +481,7 @@ void imprime_mensagem(char *mensagem)
 
     // Mensagem
     set_char_by_cursor(EMPTY_ROW, s_x, div_y);
-    printf(mensagem);
+    puts(mensagem);
     set_char_by_cursor(EMPTY_ROW, s_x + size, div_y);
 }
 
@@ -941,88 +960,9 @@ void get_size_window(int *col, int *row)
     *row = cmd.srWindow.Bottom - cmd.srWindow.Top + 1;
 }
 
-void read_file_ranked(int *pontuacao, char nomes[10][255], int tamanho)
+void make_list_palyers(Players *P, char nome)
 {
-    int i;
-    int trocou;
-    do
-    {
-        trocou = 0;
-        for (i = tamanho; i > 0; i--)
-        {
-            if (pontuacao[i] > pontuacao[i - 1])
-            {
-                int pAux;
-                char nAux[255];
-                pAux = pontuacao[i];
-                strcpy(nAux, nomes[i]);
-                pontuacao[i] = pontuacao[i - 1];
-                strcpy(nomes[i], nomes[i - 1]);
-                pontuacao[i - 1] = pAux;
-                strcpy(nomes[i - 1], nAux);
-                trocou = 1;
-            }
-        }
-
-    } while (trocou);
-}
-
-void write_file_ranked(char nickname[], int scorefinal)
-{
-    FILE *pont_arq; // cria ponteiro de arquivo
-    int i;
-    printf("registrando no rank...");
-    pont_arq = fopen("data.txt", "a");
-    for (i = 0; i < 3; i++)
-    {
-        fprintf(pont_arq, "%c", nickname[i]);
-    }
-    fprintf(pont_arq, " %d\n", scorefinal);
-
-    fclose(pont_arq);
-    printf("Salvo com sucesso");
-    main();
-}
-
-void ranking()
-{
-    FILE *pont_arq; // cria ponteiro de arquivo
-    system("cls");
-    printf("\n ######- Ranking de Jogadores -######\n");
-    printf("  \n");
-    printf(" NOME - PONTOS \n");
-    printf("  \n");
-
-    // abrindo o arquivo_frase em modo "somente leitura"
-    pont_arq = fopen("data.txt", "r");
-    // cria matriz para 10 nomes (poderia ser dinamico) e array de pontuações
-    char nomes[10][255];
-    int pontuacoes[10];
-    // variaveis que irá receber o nome e a pontuação do arquivo
-    char nome[255];
-    int pontuacao;
-    // quantidade de jogadores
-    int tamanho = 0;
-
-    // lê do arquivo
-    while (fscanf(pont_arq, "%s   %d\n", nome, &pontuacao) != EOF)
-    {
-        strcpy(nomes[tamanho], nome);
-        pontuacoes[tamanho] = pontuacao;
-        tamanho++;
-    }
-
-    // Ordena
-    read_file_ranked(pontuacoes, nomes, tamanho);
-
-    // Imprime
-    int i;
-    for (i = 0; i < tamanho; i++)
-    {
-        printf("%s %d\n", nomes[i], pontuacoes[i]);
-    }
-
-    fclose(pont_arq);
-    getch();
-    main();
+    P = malloc(sizeof(Players));
+    P->nick = nome;
+    P->head = NULL;
 }
