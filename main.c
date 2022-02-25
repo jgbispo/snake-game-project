@@ -123,6 +123,12 @@ void atualiza_cobra(COBRA *cobra);
 void atualiza_posicao(ROW *row, DIRECAO *direcao);
 void atualiza_maca(COBRA *cobra, char **matriz);
 void atualiza_area_trabalho(char **matriz, COBRA *cobra);
+void write_file_ranked(char nickname[], int scorefinal);
+void read_file_ranked(int *pontuacao, char nomes[10][255], int tamanho);
+void menu(int option);
+
+void start();
+void ranking();
 
 char verifica_obstaculo(ROW *row, DIRECAO *direcao);
 int verifica_barreiras(ROW *row, char **matriz);
@@ -174,7 +180,13 @@ int main()
     system("cls");
     imprime_mensagem("Bem-Vindo 1-Iniciar Jogo 2-Rank 3-Sair: ");
     scanf("%d", &option);
+    menu(option);
+    return 0;
+}
 
+//======== MENU ===========//
+void menu(int option)
+{
     switch (option)
     {
     case 1:
@@ -187,8 +199,13 @@ int main()
         getch();
         main();
         break;
+    case 3:
+        system("cls");
+        imprime_mensagem("Obrigado por jogar!, tecle qualquer tecla para fechar...");
+        getch();
+        system("cls");
+        break;
     }
-    return 0;
 }
 
 //======== GAME ===========//
@@ -215,13 +232,13 @@ void start()
         imprime_obstaculo(quadro);
         atualiza_area_trabalho(quadro, cobra);
 
-        // Atualiza��o de frames
+        // Atualização de frames
         int tecla = getch();
         do
         {
             if (tecla == SETAS)
-            {                    // C�digo das setas
-                tecla = getch(); // Dire��o da seta
+            {                    // Código das setas
+                tecla = getch(); // Direção da seta
                 atualiza_direcao(tecla, cobra->direcao);
             }
 
