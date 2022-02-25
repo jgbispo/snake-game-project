@@ -249,7 +249,7 @@ void start()
             if (verifica_colisao(elm_coli))
             {
                 hide_cursor(false);
-                imprime_mensagem("Insira seu nome [Máx 3]: ");
+                imprime_mensagem("Insira seu nome [Max 3]: ");
                 scanf("%s", &nome);
                 write_file_ranked(nome, score);
                 imprime_mensagem("VOCE COLIDIU!, deseja reiniciar? [s/n] ");
