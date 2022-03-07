@@ -126,6 +126,7 @@ void menu(int option);
 
 void start();
 void ranking();
+void menuDif();
 
 char verifica_obstaculo(ROW *row, DIRECAO *direcao);
 int verifica_barreiras(ROW *row, char **matriz);
@@ -189,7 +190,7 @@ void menu(int option)
     {
     case 1:
         jogando = true;
-        start();
+        menuDif();
         break;
     case 2:
         system("cls");
@@ -201,6 +202,37 @@ void menu(int option)
         system("cls");
         abort();
         break;
+    default:
+        system("cls");
+        abort();
+        break;
+    }
+}
+
+void menuDif(){
+    option = 0;
+    imprime_mensagem("1-Fácil 2-Medio 3-Dificil 4-Volta: ");
+    scanf("%d", &option);
+
+    switch (option)
+    {
+    case 1:
+        velocidade = 100;
+        jogando = true;
+        start();
+        break;
+    case 2:
+        velocidade = 70;
+        jogando = true;
+        start();
+        break;
+    case 3:
+        velocidade = 55;
+        jogando = true;
+        start();
+        break;
+    case 4:
+        main();
     default:
         system("cls");
         abort();
@@ -1024,7 +1056,7 @@ void ranking()
     int pontuacao;
     // quantidade de jogadores
     int tamanho = 0;
-
+ 
     // lê do arquivo
     while (fscanf(pont_arq, "%s   %d\n", nome, &pontuacao) != EOF)
     {
