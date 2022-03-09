@@ -9,7 +9,6 @@
 #include <search.h>
 #include <string.h>
 #include <dos.h>
-#include <locale.h>
 
 //========== CONSTANTES =========//
 #define OBS_BLOK 5
@@ -173,7 +172,6 @@ void maximize_window();
 int main()
 {
     option = 0;
-    setlocale(LC_ALL, "Portuguese");
     // Iniciando tela
     maximize_window();
     get_size_window(&DIMENSAO_X, &DIMENSAO_Y);
@@ -214,7 +212,7 @@ void menu(int option)
 
 void menuDif(){
     option = 0;
-    imprime_mensagem("1-Fácil 2-Medio 3-Dificil 4-Volta: ");
+    imprime_mensagem("1-Facil 2-Medio 3-Dificil 4-Volta: ");
     scanf("%d", &option);
 
     switch (option)
