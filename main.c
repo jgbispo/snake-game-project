@@ -1037,6 +1037,7 @@ void write_file_ranked(char nickname[], int scorefinal)
     pont_arq = fopen("data.txt", "a");
     for (i = 0; i < 3; i++)
     {
+
         fprintf(pont_arq, "%c", nickname[i]);
     }
     fprintf(pont_arq, " %d\n", scorefinal);
