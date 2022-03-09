@@ -11,8 +11,6 @@
 #include <dos.h>
 
 //========== CONSTANTES =========//
-#define OBS_RAIZES 30
-#define OBS_ROWS 30
 #define OBS_BLOK 5
 #define OFFSET_X 2
 
@@ -100,6 +98,9 @@ int option;
 
 bool jogando;
 
+int OBS_RAIZES = 30;
+int OBS_ROWS = 30;
+
 int velocidade = 100;
 //========== ASSINATURAS =========//
 COBRA *cria_cobra();
@@ -126,6 +127,7 @@ void menu(int option);
 
 void start();
 void ranking();
+void menuDif();
 
 char verifica_obstaculo(ROW *row, DIRECAO *direcao);
 int verifica_barreiras(ROW *row, char **matriz);
@@ -189,7 +191,7 @@ void menu(int option)
     {
     case 1:
         jogando = true;
-        start();
+        menuDif();
         break;
     case 2:
         system("cls");
@@ -201,6 +203,43 @@ void menu(int option)
         system("cls");
         abort();
         break;
+    default:
+        system("cls");
+        abort();
+        break;
+    }
+}
+
+void menuDif(){
+    option = 0;
+    imprime_mensagem("1-Facil 2-Medio 3-Dificil 4-Volta: ");
+    scanf("%d", &option);
+
+    switch (option)
+    {
+    case 1:
+        velocidade = 100;
+        OBS_RAIZES = 30;
+        OBS_ROWS = 30;
+        jogando = true;
+        start();
+        break;
+    case 2:
+        velocidade = 70;
+        jogando = true;
+        OBS_RAIZES = 32;
+        OBS_ROWS = 32;
+        start();
+        break;
+    case 3:
+        velocidade = 55;
+        jogando = true;
+        OBS_RAIZES = 34;
+        OBS_ROWS = 34;
+        start();
+        break;
+    case 4:
+        main();
     default:
         system("cls");
         abort();
@@ -1024,9 +1063,9 @@ void ranking()
     int pontuacao;
     // quantidade de jogadores
     int tamanho = 0;
-
+ 
     // lê do arquivo
-    while (fscanf(pont_arq, "%s   %d\n", nome, &pontuacao) != EOF)
+    while (fscanf(pont_arq, "%s %d\n", &nome, &pontuacao) != EOF)
     {
         strcpy(nomes[tamanho], nome);
         pontuacoes[tamanho] = pontuacao;
