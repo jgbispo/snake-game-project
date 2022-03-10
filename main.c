@@ -227,15 +227,15 @@ void menuDif(){
     case 2:
         velocidade = 70;
         jogando = true;
-        OBS_RAIZES = 32;
-        OBS_ROWS = 32;
+        OBS_RAIZES = 35;
+        OBS_ROWS = 35;
         start();
         break;
     case 3:
         velocidade = 55;
         jogando = true;
-        OBS_RAIZES = 34;
-        OBS_ROWS = 34;
+        OBS_RAIZES = 40;
+        OBS_ROWS = 40;
         start();
         break;
     case 4:
