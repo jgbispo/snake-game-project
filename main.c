@@ -763,7 +763,7 @@ bool verifica_fila_vazia(FILA *fila)
     return (fila->ini == NULL && fila->fim == NULL);
 }
 
-//============== C�PIAS =============//
+//============== CÓPIAS =============//
 char **copiar_matriz(char **b_matriz)
 {
     char **n_matriz = (char **)malloc(sizeof(char *) * DIMENSAO_X);
@@ -1007,10 +1007,9 @@ void get_size_window(int *col, int *row)
 void read_file_ranked(int *pontuacao, char nomes[10][255], int tamanho)
 {
     int i;
-    int trocou;
+    bool trocou = true;
     do
     {
-        trocou = 0;
         for (i = tamanho; i > 0; i--)
         {
             if (pontuacao[i] > pontuacao[i - 1])
@@ -1023,10 +1022,9 @@ void read_file_ranked(int *pontuacao, char nomes[10][255], int tamanho)
                 strcpy(nomes[i], nomes[i - 1]);
                 pontuacao[i - 1] = pAux;
                 strcpy(nomes[i - 1], nAux);
-                trocou = 1;
             }
         }
-
+        trocou = false;
     } while (trocou);
 }
 void write_file_ranked(char nickname[], int scorefinal)
@@ -1065,7 +1063,7 @@ void ranking()
     int pontuacao;
     // quantidade de jogadores
     int tamanho = 0;
- 
+
     // lê do arquivo
     while (fscanf(pont_arq, "%s %d\n", &nome, &pontuacao) != EOF)
     {
