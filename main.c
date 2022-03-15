@@ -1056,8 +1056,8 @@ void ranking()
     // abrindo o arquivo_frase em modo "somente leitura"
     pont_arq = fopen("data.txt", "r");
     // cria matriz para 10 nomes (poderia ser dinamico) e array de pontuações
-    char nomes[10][255];
-    int pontuacoes[10];
+    char nomes[11][255];
+    int pontuacoes[11];
     // variaveis que irá receber o nome e a pontuação do arquivo
     char nome[255];
     int pontuacao;

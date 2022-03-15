@@ -1,0 +1,10 @@
+abc 0
+def 0
+ghi 0
+jkl 1
+abg 0
+qwe 0
+1w3 0
+111 1
+rt4 1
+afg 3
