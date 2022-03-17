@@ -210,6 +210,7 @@ void menu(int option)
     }
 }
 
+//alteração dificuldade - Rian
 void menuDif(){
     option = 0;
     imprime_mensagem("1-Facil 2-Medio 3-Dificil 4-Volta: ");
@@ -287,6 +288,7 @@ void start()
 
             if (verifica_colisao(elm_coli))
             {
+                // alteração de velocidade
                 hide_cursor(false);
                 imprime_mensagem("Insira seu nome [Max 3]: ");
                 scanf("%s", &nome);
@@ -307,6 +309,7 @@ void start()
 
             if (verifica_maca(elm_coli))
             {
+                // Caio
                 alimenta_cobra(cobra);
                 atualiza_maca(cobra, quadro);
                 velocidade = velocidade - 10;
@@ -1002,6 +1005,7 @@ void get_size_window(int *col, int *row)
     *row = cmd.srWindow.Bottom - cmd.srWindow.Top + 1;
 }
 
+// ordem do rank - Renan
 void read_file_ranked(int *pontuacao, char nomes[10][255], int tamanho)
 {
     int i;
@@ -1027,17 +1031,20 @@ void read_file_ranked(int *pontuacao, char nomes[10][255], int tamanho)
 
     } while (trocou);
 }
+
+// arquivo - JG
 void write_file_ranked(char nickname[], int scorefinal)
 {
     FILE *pont_arq; // cria ponteiro de arquivo
     int i;
     printf("registrando no rank...");
     pont_arq = fopen("data.txt", "a");
-    for (i = 0; i < 5; i++)
+    
+    for (i = 0; i < 3; i++)
     {
-
         fprintf(pont_arq, "%c", nickname[i]);
     }
+
     fprintf(pont_arq, " %i\n", scorefinal);
 
     fclose(pont_arq);
@@ -1045,6 +1052,7 @@ void write_file_ranked(char nickname[], int scorefinal)
     main();
 }
 
+// Ranking edit - Yan
 void ranking()
 {
     FILE *pont_arq; // cria ponteiro de arquivo
@@ -1056,7 +1064,7 @@ void ranking()
 
     // abrindo o arquivo_frase em modo "somente leitura"
     pont_arq = fopen("data.txt", "r");
-    // cria matriz para 10 nomes (poderia ser dinamico) e array de pontuações
+    // cria matriz para 100 nomes (poderia ser dinamico) e array de pontuações
     char nomes[100][255];
     int pontuacoes[100];
     // variaveis que irá receber o nome e a pontuação do arquivo
@@ -1066,7 +1074,7 @@ void ranking()
     int tamanho = 0;
  
     // lê do arquivo
-    while (fscanf(pont_arq, "%s %d\n", &nome, &pontuacao) != EOF)
+    while (fscanf(pont_arq, "%s - %d\n", &nome, &pontuacao) != EOF)
     {
         strcpy(nomes[tamanho], nome);
         pontuacoes[tamanho] = pontuacao;
