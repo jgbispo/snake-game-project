@@ -92,7 +92,7 @@ typedef struct
 //=========== VARIAVEIS ==========//
 int DIMENSAO_X, DIMENSAO_Y;
 
-char nome[3];
+char nome[5];
 int score;
 int option;
 
@@ -1033,12 +1033,12 @@ void write_file_ranked(char nickname[], int scorefinal)
     int i;
     printf("registrando no rank...");
     pont_arq = fopen("data.txt", "a");
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 5; i++)
     {
 
-        fprintf(pont_arq, "%c", nickname[i]);
+        fprintf(pont_arq, "%i", nickname[i]);
     }
-    fprintf(pont_arq, " %d\n", scorefinal);
+    fprintf(pont_arq, " %i\n", scorefinal);
 
     fclose(pont_arq);
     printf("Salvo com sucesso");
