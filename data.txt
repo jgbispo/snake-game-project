@@ -7,4 +7,10 @@ qwe 0
 1w3 0
 111 1
 rt4 1
-afg 3
+afg 3dfs 0
+asd 0
+iop 0
+qwe 0
+qrt 0
+ads 0
+asd 0
