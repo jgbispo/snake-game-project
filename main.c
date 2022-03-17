@@ -227,15 +227,15 @@ void menuDif(){
     case 2:
         velocidade = 70;
         jogando = true;
-        OBS_RAIZES = 35;
-        OBS_ROWS = 35;
+        OBS_RAIZES = 32;
+        OBS_ROWS = 32;
         start();
         break;
     case 3:
         velocidade = 55;
         jogando = true;
-        OBS_RAIZES = 40;
-        OBS_ROWS = 40;
+        OBS_RAIZES = 34;
+        OBS_ROWS = 34;
         start();
         break;
     case 4:
@@ -1036,7 +1036,7 @@ void write_file_ranked(char nickname[], int scorefinal)
     for (i = 0; i < 5; i++)
     {
 
-        fprintf(pont_arq, "%i", nickname[i]);
+        fprintf(pont_arq, "%c", nickname[i]);
     }
     fprintf(pont_arq, " %i\n", scorefinal);
 
@@ -1057,8 +1057,8 @@ void ranking()
     // abrindo o arquivo_frase em modo "somente leitura"
     pont_arq = fopen("data.txt", "r");
     // cria matriz para 10 nomes (poderia ser dinamico) e array de pontuações
-    char nomes[10][255];
-    int pontuacoes[10];
+    char nomes[11][255];
+    int pontuacoes[11];
     // variaveis que irá receber o nome e a pontuação do arquivo
     char nome[255];
     int pontuacao;
